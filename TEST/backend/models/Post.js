@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema(
         userId: {type: mongoose.Types.ObjectId},
         postText: {type: String},
         postImage: {type: String},
-        postVideo: {type: String}
+        // postVideo: {type: String}
     },
     {
         timestamps: true
