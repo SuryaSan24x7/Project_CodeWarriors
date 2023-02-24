@@ -1,10 +1,14 @@
 // import { Outlet } from "react-router-dom"
 import "./explorer.css"
-import { Link } from "react-router-dom"
+import { Link ,useNavigate} from "react-router-dom"
 import "./3.png"
 function Explorer(){
+    let navigate = useNavigate(); 
+    const loginBtn = () =>{ 
+      let path = `/login`; 
+      navigate(path);
+    }
 
-    const loginBtn=() => {<Link to= "/login"></Link>};
     
     return (
         <div className="container-fluid">
