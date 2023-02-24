@@ -9,9 +9,11 @@ import {login,logout} from "./Auth/Auth"
 import Profile from "./Props/Profile";
 import Feed from "./Props/Feed";
 import Post from "./Props/Post";
+import Explorer from "./Props/Explorer";
+
 
 const router = createBrowserRouter([
-  {path: "/", element: <Login/>},               //default path component
+  {path: "/", element: <Explorer/>},               //default path component
   {
     path: "/home", 
     element: <Home/>, 
@@ -21,7 +23,8 @@ const router = createBrowserRouter([
       {path:"post",element:<Post/>}
     ]
   },
-  {path: "/register", element: <Register/>}
+  {path: "/register", element: <Register/>},
+  {path:"/login",element:<Login/>}
 ])
 
 function App(){

@@ -83,7 +83,7 @@ function Register(){
                     onChange={validatePassword}/>
                 <button className="btn btn-primary btn-sm mb-3" onClick={registerAccount}>Create an account</button>
                 <p>
-                    <Link to="/">Login</Link>
+                    <Link to="/login">Login</Link>
                 </p>
             </div>
         </div>
