@@ -10,6 +10,7 @@ import Profile from "./Props/Profile";
 import Feed from "./Props/Feed";
 import Post from "./Props/Post";
 import Explorer from "./Props/Explorer";
+import WritePost from "./Props/WritePost";
 
 
 const router = createBrowserRouter([
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
     children: [
       {path: "profile", element: <Profile/>}, 
       {path: "feed", element: <Feed/>},
-      {path:"post",element:<Post/>}
+      {path:"post",element:<Post/>},
+      {path:"writepost",element:<WritePost/>}
     ]
   },
   {path: "/register", element: <Register/>},

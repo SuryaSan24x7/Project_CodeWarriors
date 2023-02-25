@@ -6,6 +6,11 @@ import userpic from "./user.jpg"
 function Sidebar(){
     const {user,logout} = useAuth()
     const navigate = useNavigate()
+
+    const writeBtn = () =>{ 
+      let path = `/home/writepost`; 
+      navigate(path);
+    }
     return (
         <div className="container-fluid">
             <div className="row">
@@ -23,10 +28,12 @@ function Sidebar(){
                 <nav className="nav flex-column">
                     <Link className="nav-link" to="/home/profile">Profile</Link>
                     <Link className="nav-link" to="/home/feed">Feed</Link>
+                    <button className="writeBtn" onClick={writeBtn}>Create_Post</button>
                     <Link className="nav-link" to="/home/post">Post</Link>
                     <button className="logOut" onClick={()=>{logout().then(res => {
 					navigate("/")
 				})}}>Log Out</button>
+
                 </nav>
             </div>
         </div>
