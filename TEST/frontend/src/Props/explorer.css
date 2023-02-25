@@ -2,12 +2,12 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 .logo-img {
-    background-color: #ff8400;
+    background-color: #03747a;
     height: 3rem;
     margin-left: 0.5rem;
 }
 nav.navbar {
-    background-color: #ff8400;
+    background-color: #03747a;
     display: flex;
     color : white;
     font-size: 0.8rem;
@@ -76,8 +76,14 @@ span.price {
 .login
 {   background-color: whitesmoke;
     width : 6rem;
-    height : 1.2rem;
+    height : 1.5rem;
     border: 0px;
-    border-radius: 2px;
-    
+    border-radius: 2px; 
+}
+.regBtn
+{   background-color: whitesmoke;
+    width : 6rem;
+    height : 1.5rem;
+    border: 0px;
+    border-radius: 2px; 
 }

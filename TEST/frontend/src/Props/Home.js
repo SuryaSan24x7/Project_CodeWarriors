@@ -5,7 +5,8 @@ import Layout from "./Layout"
 
 function Home(){
     const {user, setUser} = useAuth()
-    return user ? <Layout/> :<Navigate to="/"/>
-}
+    return (user ? <Layout/>:<Navigate to="/"/>
+    
+    )}
 
 export default Home

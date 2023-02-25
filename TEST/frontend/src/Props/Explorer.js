@@ -1,13 +1,18 @@
 // import { Outlet } from "react-router-dom"
 import "./explorer.css"
 import { Link ,useNavigate} from "react-router-dom"
-import "./3.png"
+import logo from "./3.png"
 function Explorer(){
     let navigate = useNavigate(); 
     const loginBtn = () =>{ 
       let path = `/login`; 
       navigate(path);
     }
+    const regBtn = () =>{ 
+        let path = `/register`; 
+        navigate(path);
+      }
+    
 
     
     return (
@@ -15,7 +20,7 @@ function Explorer(){
             <div className="row justify-content-between">
             <nav className="navbar">
         <div className="logo">
-            <img src="3.png" className="logo-img" alt="logo" width="50" height="60"></img>
+            <img src={logo} className="logo-img" alt="logo" width="50" height="60"></img>
         </div>
         <div className="menu search">
             <div className="search-bar">
@@ -24,10 +29,10 @@ function Explorer(){
             </div>
         </div>
         <div className="menu">
-            <span><button className="login" style={{'height' :'20px'}} onClick={loginBtn}>Login</button></span>
+            <span><button className="login" onClick={loginBtn}>Login</button></span>
         </div>
         <div className="menu">
-            <span className="text-light" ><Link to="/register">Register</Link></span>
+            <span><button className="regBtn" onClick={regBtn}>Register</button></span>
         </div><div className="menu">
             <span className="text-bold" >More</span>
         </div>

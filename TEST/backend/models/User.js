@@ -16,9 +16,9 @@ var UserSchema = new mongoose.Schema({
     gender: {type: String},
     phone: {type: String},
     // pic: {type: String},
-    // friends: [PersonSchema],
-    // friendRequest: [PersonSchema],
-    // sentFriendRequest: [PersonSchema]
+    // Posts: [PersonSchema],
+    // Sell: [PersonSchema],
+    // Buy: [PersonSchema]
 })
 
 module.exports = mongoose.model("user", UserSchema)
