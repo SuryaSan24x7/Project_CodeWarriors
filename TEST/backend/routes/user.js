@@ -20,9 +20,6 @@ const upload = multer({storage: storage})
 router.put("/", authController.authorizeToken,upload.single('pic'), userController.updateUser)
 router.get("/pic/:userpic", authController.authorizeToken, userController.getPic)
 router.post("/persons", authController.authorizeToken, userController.getPersonList)
-router.post("/friendreq", authController.authorizeToken, userController.sendFriendRequest)
-router.get("/friendreqlist", authController.authorizeToken, userController.getFriendsRequestList)
-router.get("/friendslist", authController.authorizeToken, userController.getFriendsList)
-router.post("/approvereq", authController.authorizeToken, userController.approveRequest)
+
 
 module.exports = router
