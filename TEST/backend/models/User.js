@@ -15,8 +15,8 @@ var UserSchema = new mongoose.Schema({
     password: {type: String},
     gender: {type: String},
     phone: {type: String},
-    // pic: {type: String},
-    // Posts: [PersonSchema],
+    pic: {type: String},
+    Posts: [PersonSchema],
     // Sell: [PersonSchema],
     // Buy: [PersonSchema]
 })

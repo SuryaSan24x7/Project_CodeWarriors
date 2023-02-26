@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
 import Sidebar from "./Sidebar"
-
+import PropertyList from"./Enlist"
 
 function Layout(){
     return (
@@ -13,7 +13,7 @@ function Layout(){
                     <Outlet/>
                 </div>
                 <div className="col-2 border-start border-secondary">
-                    
+                    <PropertyList/>
                 </div>
             </div>
 

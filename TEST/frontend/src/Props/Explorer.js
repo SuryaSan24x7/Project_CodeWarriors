@@ -2,6 +2,8 @@
 import "./explorer.css"
 import { Link ,useNavigate} from "react-router-dom"
 import logo from "./3.png"
+import PropertyList from "./Enlist"; 
+// import Web3 from 'ethereum/web3';
 function Explorer(){
     let navigate = useNavigate(); 
     const loginBtn = () =>{ 
@@ -12,7 +14,18 @@ function Explorer(){
         let path = `/register`; 
         navigate(path);
       }
-    
+      async function connect() {
+    //     if (window.ethereum) {
+    //        await window.ethereum.request({ method: "eth_requestAccounts" });
+    //        window.web3 = new Web3(window.ethereum);
+    //        const account = web3.eth.accounts;
+    //        //Get the current MetaMask selected/active wallet
+    //        const walletAddress = account.givenProvider.selectedAddress;
+    //        console.log(`Wallet: ${walletAddress}`);
+    //     } else {
+    //      console.log("No wallet");
+    //     }
+}
 
     
     return (
@@ -37,12 +50,15 @@ function Explorer(){
             <span className="text-bold" >More</span>
         </div>
         <div className="menu">
-            <span className="cart-icon"><i className="fa-solid fa-cart-shopping"></i></span>
-            <span className="text-bold">Cart</span>
+       <span> <input type="button" value="Connect Wallet" onclick={connect()}/></span>
         </div>
     </nav>
-            </div>
-
+     </div>
+<div>
+        <div className="col-2 border-start border-secondary">
+                    <PropertyList/>
+                </div>
+</div>
         </div>
     )
 }

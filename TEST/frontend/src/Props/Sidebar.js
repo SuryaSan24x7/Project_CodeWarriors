@@ -1,7 +1,7 @@
 import { useAuth } from "../Auth/Auth"
 import "../Style.css"
 import { Link,useNavigate } from "react-router-dom"
-import userpic from "./user.jpg"
+import Userimg from "./user/pic/Cabbage.jpg" 
 
 function Sidebar(){
     const {user,logout} = useAuth()
@@ -15,7 +15,7 @@ function Sidebar(){
         <div className="container-fluid">
             <div className="row">
                 <div className="col-12">
-                    <img src={userpic} alt="user" className="img-fluid user-pic"/>
+                    <img src={Userimg} alt="user" className="img-fluid user-pic"/>
                 </div>
             </div>
             <div className="row">
@@ -33,7 +33,6 @@ function Sidebar(){
                     <button className="logOut" onClick={()=>{logout().then(res => {
 					navigate("/")
 				})}}>Log Out</button>
-
                 </nav>
             </div>
         </div>

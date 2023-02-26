@@ -24,6 +24,7 @@ function WritePost() {
     data.append("postType",postType);
     data.append("postYear",postYear);
     data.append("postDimensions",postDimensions);
+    data.append("postSqArea",postSqArea);
     fetch("/post", {
       method: "POST",
       body: data,
