@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const postController = require("../controller/post")
 const authController = require("../controller/auth")
-const multer = require("multer")
+const multer = require("multer");
 const { models } = require("mongoose")
 
 const storage = multer.diskStorage({
@@ -19,8 +19,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage})
 
-router.post("/", authController.authorizeToken, upload.single("postImage"), postController.createPost)
+router.post("/", authController.authorizeToken,upload.single("postImage"),postController.createPost)
 router.get("/all", authController.authorizeToken, postController.getPosts)
 router.get("/pic/:postpic", authController.authorizeToken, postController.getPic)
-
 module.exports = router

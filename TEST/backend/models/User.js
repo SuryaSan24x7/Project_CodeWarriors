@@ -1,11 +1,11 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 var PersonSchema = new mongoose.Schema(
     {
-        userId: {type: mongoose.Types.ObjectId}
+        userId: {type: mongoose.Types.ObjectId},
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 )
 
@@ -16,9 +16,7 @@ var UserSchema = new mongoose.Schema({
     gender: {type: String},
     phone: {type: String},
     pic: {type: String},
-    Posts: [PersonSchema],
-    // Sell: [PersonSchema],
-    // Buy: [PersonSchema]
-})
+    posts: [PersonSchema]
+});
 
-module.exports = mongoose.model("user", UserSchema)
+module.exports = mongoose.model("user", UserSchema);

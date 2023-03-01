@@ -17,11 +17,11 @@ function Post(props) {
 			</div>
 			<div className="row">
 				<div className="col mt-1 mb-2">
-					<span>{props?.postData?.postYear}</span>
 					<span>{props?.postData?.postType}</span>
+					<span>{props?.postData?.postCity}</span>
 					<span>{props?.postData?.postState}</span>
 					<span>{props?.postData?.postDistrict}</span>
-					<span>{props?.postData?.postCity}</span>
+					<span>{props?.postData?.postYear}</span>
 					<span>{props?.postData?.postDimensions}</span>
 					<span>{props?.postData?.postSqArea}</span>
 					<span>{props?.postData?.postText}</span>

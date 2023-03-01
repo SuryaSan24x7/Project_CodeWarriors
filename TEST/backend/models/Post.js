@@ -1,15 +1,23 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema(
+const PostSchema = new mongoose.Schema(
     {
         userId: {type: mongoose.Types.ObjectId},
         postText: {type: String},
         postImage: {type: String},
+        postType: {type: String},
+        postCity:{type: String},
+        postDistrict:{type: String},
+        postState:{type: String},
+        postAddress: {type: String},
+        postYear: {type: String},
+        postDimension: {type: String},
+        postSqArea: {type: String},
         
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 )
 
-module.exports = mongoose.model("post", postSchema)
+module.exports = mongoose.model("post", PostSchema);

@@ -2,8 +2,9 @@
 import "./explorer.css"
 import { Link ,useNavigate} from "react-router-dom"
 import logo from "./3.png"
-import PropertyList from "./Enlist"; 
+// import PropertyList from "./Enlist"; 
 // import Web3 from 'ethereum/web3';
+import Feed from "./Feed";
 function Explorer(){
     let navigate = useNavigate(); 
     const loginBtn = () =>{ 
@@ -56,7 +57,7 @@ function Explorer(){
      </div>
 <div>
         <div className="col-2 border-start border-secondary">
-                    <PropertyList/>
+                    <Feed/>
                 </div>
 </div>
         </div>

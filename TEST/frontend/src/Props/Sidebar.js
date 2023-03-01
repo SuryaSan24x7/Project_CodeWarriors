@@ -15,7 +15,7 @@ function Sidebar(){
         <div className="container-fluid">
             <div className="row">
                 <div className="col-12">
-                    <img src={Userimg} alt="user" className="img-fluid user-pic"/>
+                <img src={"/user/pic/"+user?.pic} className="img-fluid user-pic rounded-3"/>
                 </div>
             </div>
             <div className="row">
@@ -34,6 +34,9 @@ function Sidebar(){
 					navigate("/")
 				})}}>Log Out</button>
                 </nav>
+                <div>
+                    
+                </div>
             </div>
         </div>
     )

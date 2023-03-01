@@ -1,7 +1,19 @@
 import {useState, useEffect} from "react"
 import Post from "./Post"
-
+import 
 function Newsfeed() {
+	const {user} = useAuth()
+
+	const checkRequestStatus = function(){
+		var temp=user?.post.filter(item => item.userId === props.post._id)
+		if(temp.length > 0){
+			return true // user posted the property
+		}else{
+			return false // havent posted yet 
+		}
+	}
+
+
 	const [posts, setPosts] = useState([]);
 
 	const getPosts = function () {
