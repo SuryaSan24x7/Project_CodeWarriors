@@ -2,10 +2,19 @@ import { useAuth } from "../Auth/Auth"
 import "../Style.css"
 import { Link,useNavigate } from "react-router-dom"
 import Userimg from "./user/pic/Cabbage.jpg" 
-
 function Sidebar(){
     const {user,logout} = useAuth()
     const navigate = useNavigate()
+    
+    const profileBtn = () => {
+        let path = `/home/profile`;
+        navigate(path);
+    }
+
+    const feedBtn = () => {
+        let path = `/home/feed`;
+        navigate(path);
+    }
 
     const writeBtn = () =>{ 
       let path = `/home/writepost`; 
@@ -15,10 +24,10 @@ function Sidebar(){
         <div className="container-fluid">
             <div className="row">
                 <div className="col-12">
-                <img src={"/user/pic/"+user?.pic} className="img-fluid user-pic rounded-3"/>
+                <img src={Userimg} className="img-fluid user-pic rounded-3"/>
                 </div>
             </div>
-            <div className="row">
+            <div className="row" >
                 <div className="col-12 fs-3 text-center">{user.name}</div>
             </div>
             <div className="row">
@@ -26,10 +35,9 @@ function Sidebar(){
             </div>
             <div className="row mt-5">
                 <nav className="nav flex-column">
-                    <Link className="nav-link" to="/home/profile">Profile</Link>
-                    <Link className="nav-link" to="/home/feed">Feed</Link>
+                    <button className="profileBtn" onClick={profileBtn}>Profile</button>
+                    <button className="feedBtn" onClick={feedBtn}>Feed</button>
                     <button className="writeBtn" onClick={writeBtn}>Create_Post</button>
-                    <Link className="nav-link" to="/home/post">Post</Link>
                     <button className="logOut" onClick={()=>{logout().then(res => {
 					navigate("/")
 				})}}>Log Out</button>

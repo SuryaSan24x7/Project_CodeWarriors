@@ -17,18 +17,6 @@ const propertySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  pincode: {
-    type: Number,
-    required: true
-  },
-  dimensions:{
-    type: Number,
-    required: true
-  },
-  SqArea: {
-    type: Number,
-    required: true
-  }
   // owner: {
   //   name: {
   //     type: String,
@@ -49,4 +37,4 @@ const propertySchema = new mongoose.Schema({
   // }
 });
 
-const Property = mongoose.model('property', propertySchema);
+const Property = mongoose.model('Property', propertySchema);

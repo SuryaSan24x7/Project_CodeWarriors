@@ -1,12 +1,19 @@
 import "../Style.css"
-
+import { useNavigate } from "react-router-dom";
+import Cart from "./Cart";
 function Post(props) {
+	const navigate=useNavigate();
+	const CartBtn = () =>{ 
+		<Cart props/>
+        let path = `/cart`; 
+      navigate(path);
+      }
 	return (
 		<div className="container-fluid p-3 border bg-white shadow mb-2">
 			<div className="d-flex">
 				<div>
 					<img
-						src={"/user/pic/" + props?.postData?.userId?.pic}
+						src={"media/user/pic/"+props?.postData?.userId?.pic}
 						alt="user"
 						className="user-small-image rounded rounded-circle"
 					/>
@@ -31,6 +38,7 @@ function Post(props) {
 				<img src={"/post/pic/"+props?.postData?.postImage} alt="post" className="post-image" />
 				
 			</div>
+			<span><button className="CartBtn" onClick={CartBtn}>Add to Cart</button></span>
 		</div>
 	);
 }

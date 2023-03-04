@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import {useAuth} from "../Auth/Auth"
 import { useState, useEffect } from "react";
+import background from "../bg/estate3.jpg";
 
 function Login(){
     const {user, setUser, login} = useAuth()
@@ -44,7 +45,7 @@ function Login(){
     }, [])
 
     return (
-      <div className="container-fluid">
+      <div className="container-fluid" style={{ backgroundImage: `url(${background})`, backgroundSize:`cover` }}>
         <div className="row justify-content-center align-items-center" style={{height:"98vh"}}>
           
             <div className="col-4 shadow p-5 text-center bg-white">

@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage})
 
 router.put("/", authController.authorizeToken,upload.single('pic'), userController.updateUser);
-router.get("/pic/:userpic", authController.authorizeToken, userController.getPic)
+router.get("/pic/:userpic", userController.getPic)
 // router.get("/post", authController.authorizeToken, userController.getpost)
 
 module.exports = router;

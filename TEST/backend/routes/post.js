@@ -21,5 +21,6 @@ const upload = multer({storage: storage})
 
 router.post("/", authController.authorizeToken,upload.single("postImage"),postController.createPost)
 router.get("/all", authController.authorizeToken, postController.getPosts)
-router.get("/pic/:postpic", authController.authorizeToken, postController.getPic)
+router.get("/lists", postController.getAllPosts)
+router.get("/pic/:postpic", postController.getPic)
 module.exports = router

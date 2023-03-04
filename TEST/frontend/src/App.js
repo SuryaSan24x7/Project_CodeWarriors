@@ -11,6 +11,7 @@ import Feed from "./Props/Feed";
 import Post from "./Props/Post";
 import Explorer from "./Props/Explorer";
 import WritePost from "./Props/WritePost";
+import Cart from "./Props/Cart";
 
 
 const router = createBrowserRouter([
@@ -26,7 +27,8 @@ const router = createBrowserRouter([
     ]
   },
   {path: "/register", element: <Register/>},
-  {path:"/login",element:<Login/>}
+  {path:"/login",element:<Login/>},
+  {path:"/cart",element:<Cart />}
 ])
 
 function App(){

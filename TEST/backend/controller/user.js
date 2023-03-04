@@ -1,111 +1,179 @@
 const User = require("../models/User");
 
-exports.updateUser = async (req,res,next) => {
+exports.updateUser = (req, res, next) => {
+	User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{
+			$set: {
+				name: req.body.name,
+				email: req.body.email,
+				gender: req.body.gender,
+				phone: req.body.phone,
+				pic: req.file?.filename,
+			},
+		},
+		{ new: true }
+	)
+		.then((data) => {
+			res.send({ type: "success", msg: "Successfully updated profile" });
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({ type: "error", msg: "Failed to update the profile" });
+		});
+};
 
-    try{
-       const{ _id, name, email, phone} =req.body;
-       const updateData ={
-        name,
-        email,
-        phone,
-        pic: req.file?.filename,
-        posts:[],
-       };
-       const updateUser = await User.findOneAndUpdate({_id}, {$set: updateData}, {new :true});
-       res.send({type: "success",  msg: "successfully updated profile"});
-    } catch (error) {
-        console.log(error);
-        res.send({ type: "error", msg: "failed to update profile" });
-      }
-    };
+exports.getPic = (req, res, next) => {
+	const picName = req.params.userpic;
+	res.sendFile(picName, { root: "media/user" });
+	// User.findOne({ _id: req.user._id })
+	// 	.then((usr) => {
+	// 		if (usr) {
+	// 			res.sendFile(usr.pic, { root: "media/user" });
+	// 		}
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err);
+	// 		res.send({ type: "error", msg: "File not found" });
+	// 	});
+	// res.send("djkf")
+};
 
-exports.getPic = async(req,res,next) => {
-    try {
-        const pic = req.params.userpic;
-        const user = await User.findOne({ _id: req.user._id });
-        if (user) {
-          res.sendFile(pic, { root: "media/user" });
-        }
-      } catch (error) {
-        console.log(error);
-        res.send({ type: "error", msg: "file not found" });
-      }
-    };
-    
-// exports.getPersonList = async (req,res) => {
-//     try {
-//         const users = await User.find(
-//           { _id: { $ne: req.user._id } },
-//           { _id: 1, name: 1, pic: 1 }
-//         );
-//         res.send(users);
-//       } catch (error) {
-//         console.log(error);
-//         res.send({ type: "error", msg: "failed to fetch users" });
-//       }
-//     };
+exports.getPersonList = (req, res) => {
+	User.find({ _id: { $ne: req.user._id } }, { _id: 1, name: 1, pic: 1 })
+		.then((usrs) => {
+			res.send(usrs);
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({ type: "error", msg: "Failed to fetch persons" });
+		});
+};
 
-exports.getPropetyList = async(req,res) => {
-    try {
-        var user = await User.findOne({ _id: req.user._id });
-        const propertyList = user.property.map((item) => item.userId);
-        const userList = await User.find(
-          { _id: { $in: propertyList } },
-          { _id: 1, name: 1, pic: 1 }
-        );
-        res.send(userList);
-      } catch (error) {
-        console.log(error);
-        res.send({ type: "error", msg: "some problem occurred" });
-      }
-    };
+exports.sendFriendRequest = (req, res) => {
+	const loggedInUserId = req.user._id;
+	const otherUserId = req.body.userId;
+	User.updateOne(
+		{ _id: req.body.userId },
+		{ $push: { friendRequest: { userId: loggedInUserId } } }
+	)
+		.then((doc) => {
+			if (doc.modifiedCount) {
+				User.updateOne(
+					{ _id: req.user._id },
+					{ $push: { sentFriendRequest: { userId: otherUserId } } }
+				)
+					.then((doc) => {
+						res.send({
+							type: "success",
+							msg: "Friend Request sent",
+						});
+					})
+					.catch((err) => {
+						console.log(err);
+						res.send({
+							type: "error",
+							msg: "Failed to send friend Request",
+						});
+					});
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({ type: "error", msg: "Failed to send friend Request" });
+		});
+};
 
-// exports.getSellerList = async (req,res) => {
-//     try {
-//         const user = await User.findOne({ _id: req.user._id });
-//         const sellersList = user.seller.map((item) => item.userId);
-//         const userList = await User.find(
-//           { _id: { $in: sellersList } },
-//           { _id: 1, name: 1, pic: 1 }
-//         );
-//         res.send(userList);
-//       } catch (error) {
-//         console.log(error);
-//         res.send({ type: "error", msg: "failed to fetch the sellers list" });
-//       }
-//     };
+exports.getFriendsRequestList = (req, res) => {
+	User.findOne({ _id: req.user._id })
+		.then((usr) => {
+			let friendsRequestIdList = usr.friendRequest.map(
+				(item) => item.userId
+			);
+			User.find(
+				{ _id: { $in: friendsRequestIdList } },
+				{ _id: 1, name: 1, pic: 1 }
+			)
+				.then((usrList) => {
+					res.send(usrList);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ type: "error", msg: "Some Problem Occured" });
+				});
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({
+				type: "error",
+				msg: "Failed to fetch the friend requests",
+			});
+		});
+};
 
-exports.approveRequest = async (req,res) => {
-    try{
-    console.log(req.body);
-    const approvedUser = req.body;
-    const currentUserId = req.user._id;
+// [{userId : 1}{userId : 2}{userId : 3}]
+// [1,2,3]
 
-    const user = await User.findOne({_id: currentUserId})
-    const propertyListArr = user.propertyListArr.filter((item) => approvedUser._id == item.userId)
-            
-    if(propertyListArr.length > 0){
-     const currentUserUpdateStatusDoc = await User.updateOne(
-                    {_id: currentUserId},
-                    {
-                        $push: {buyer: {userId: approvedUser._id}},
-                        $pull: {buyersReq: {userId: approvedUser._id}}
-                    }
-                );
-                const approvedUserUpdateStatusDoc = await User.updateOne(
-                    {_id: approvedUser._id},
-                    {
-                        $push: {buyer: {userId: currentUserId}},
-                        $pull: {buyersReq: {userId: currentUserId}},
-                    }
-                );
-                res.send({type: "success", msg: "approved successfully"});
-            }else{
-                res.send({type: "error", msg: "invalid buyer request"});
-            }
-        }
-    catch(err) {
-            console.log(err)
-            res.send({type: "error", msg: "failed to approve request"})
-        }
+exports.getFriendsList = (req, res) => {
+	User.findOne({ _id: req.user._id })
+		.then((usr) => {
+			let friendsIdList = usr.friends.map((item) => item.userId);
+			User.find(
+				{ _id: { $in: friendsIdList } },
+				{ _id: 1, name: 1, pic: 1 }
+			)
+				.then((usrList) => {
+					res.send(usrList);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ type: "error", msg: "Some Problem Occured" });
+				});
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({
+				type: "error",
+				msg: "Failed to fetch the friends",
+			});
+		});
+};
+
+exports.approveRequest = (req, res) => {
+	console.log(req.body)
+	let approvedUser = req.body;
+	let currentUserId = req.user._id;
+	User.findOne({ _id: currentUserId })
+		.then(async (usr) => {
+			let friendRequestArr = usr.friendRequest.filter(
+				(item) => approvedUser._id == item.userId
+			);
+			if (friendRequestArr.length > 0) {
+				let currentUserUpdateStatusDoc = await User.updateOne(
+					{ _id: currentUserId },
+					{
+						"$push": { friends: { userId: approvedUser._id } },
+						"$pull": { friendRequest: { userId: approvedUser._id } },
+					}
+				);
+				let approvedUserUpdateStatusDoc = await User.updateOne(
+					{ _id: approvedUser._id },
+					{
+						$push: { friends: { userId: currentUserId } },
+						$pull: { sentFriendRequest: { userId: currentUserId } },
+					}
+				);
+
+				//currentUserUpdateStatusDoc.modifiedCount 
+				//Compare modifed count then respond
+				res.send({type : "success", msg : "Approved Successfully"})
+
+			} else {
+				res.send({ type: "error", msg: "Wrong Friend Request" });
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({ type: "error", msg: "Failed to approve request" });
+		});
 };

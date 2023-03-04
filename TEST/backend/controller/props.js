@@ -43,4 +43,3 @@ exports.getPic = async(req,res,next) => {
         res.send({ type: "error", msg: "file not found" });
       }
     };
-

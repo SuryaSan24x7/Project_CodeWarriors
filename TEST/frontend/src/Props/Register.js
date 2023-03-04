@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import background from "../bg/estate2.jpg";
 
 function Register(){
     const[name,setName] = useState("")
@@ -63,7 +64,7 @@ function Register(){
     }
 
     return (
-      <div className="container-fluid">
+        <div className="container-fluid" style={{ backgroundImage: `url(${background})` , backgroundSize:`cover`}}>
         <div className="row justify-content-center align-items-center" style={{height:"98vh"}}>
             <div className="col-4 shadow p-5 text-center bg-white">
                 <p className="fst-italic">{msg}</p>

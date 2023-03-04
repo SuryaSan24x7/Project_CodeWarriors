@@ -1,4 +1,5 @@
 body{
+	background-image:"./bg/estate2.jpg";
 	background-color: whitesmoke;
 }
 
@@ -43,6 +44,13 @@ font-style: italic;
 }
 .logout{
 	background-color: whitesmoke;
+    width : 6rem;
+    height : 1.5rem;
+    border: 0px;
+    border-radius: 2px; 
+}
+.CartBtn
+{   background-color: whitesmoke;
     width : 6rem;
     height : 1.5rem;
     border: 0px;

@@ -62,3 +62,19 @@ exports.getPosts = async (req,res,next) => {
             res.send({type: "error", msg: "failed to fetch property posts"});
         }
     };
+    exports.getAllPosts = async (req,res,next) => {
+        try{
+        
+        const postList= await Post.find({})
+                    .populate({
+                        path: 'userId',
+                        select: '_id name pic'
+                    })
+                    res.send(postList);
+            }
+                catch(err) {
+                        console.log(err);
+                        res.send({type: "error", msg: "failed to fetch property lists"});
+                } 
+               
+            };
