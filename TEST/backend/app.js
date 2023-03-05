@@ -12,6 +12,7 @@ require("./db")
 const authRouter = require("./routes/auth")
 const userRouter = require("./routes/user")
 const postRouter = require("./routes/post")
+require('dotenv').config();
 
 app.use(helmet())
 app.use(morgan('dev'))

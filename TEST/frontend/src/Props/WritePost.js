@@ -34,14 +34,14 @@ function WritePost() {
         if (data.type === "success") {
           setMsg(
             <span className="fst-italic text-success">
-              <span class="material-icons-outlined">done</span>
+              <span className="material-icons-outlined">done</span>
               {data.msg}
             </span>
           );
         } else {
           setMsg(
             <span className="fst-italic text-danger">
-              <span class="material-icons-outlined">close</span>
+              <span className="material-icons-outlined">close</span>
               {data.msg}
             </span>
           );

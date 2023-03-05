@@ -41,7 +41,7 @@ function Explorer(){
     const getUserBalance = (accountAddress) => {
         window.ethereum.request({method: 'eth_getBalance', params: [String(accountAddress),"latest"]})
         .then(balance => {
-            setUserbalace(ethers.utils.fromatEther(balance));
+            setUserbalace(ethers.utils.formatEther(balance));
         })
     }
 

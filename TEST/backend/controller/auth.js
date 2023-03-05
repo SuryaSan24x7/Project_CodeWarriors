@@ -39,8 +39,9 @@ exports.login = async (req, res) => {
               name: user.name,
             },
             SECRET,
-            { expiresIn: "15m" }
+            { expiresIn: "24h" }
           );
+          console.log('Token: -------> ', token);
           res.cookie("token", token, { maxAge: 900000, httpOnly: true, sameSite: "lax" });
           res.send(user);
         }
@@ -64,11 +65,13 @@ exports.authorizeToken = (req, res, next) => {
         next();
       } else {
         res.cookie("token", "");
+        console.log(err)
         res.status(401).send({ msg: "ACCESS_DENIED" });
       }
     });
   } else {
     res.cookie("token", "");
+    console.log(err)
     res.status(401).send({ msg: "ACCESS_DENIED" });
   }
 };
