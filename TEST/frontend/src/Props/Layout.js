@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom"
 import Sidebar from "./Sidebar"
 import PropertyList from"./Enlist"
-import background from "../bg/estate5.jpg";
+import background from "../bg/bg5.jpg";
 
 function Layout(){
     return (

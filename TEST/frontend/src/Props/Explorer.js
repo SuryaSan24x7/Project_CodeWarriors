@@ -7,6 +7,7 @@ import React,{useState} from 'react';
 import {ethers} from 'ethers';
 import background from "../bg/estate3.jpg";
 import View from "./View";
+
 function Explorer(){
     let navigate = useNavigate(); 
     const loginBtn = () =>{ 
@@ -21,7 +22,6 @@ function Explorer(){
     const [errorMessage,setErrorMessage] = useState();
     const [defaultAccount,setDefaultAccount] = useState();
     const [userBalance,setUserbalace] = useState();
-    
     const connectWallet = () => {
         if (window.ethereum){
             window.ethereum.request({method: 'eth_requestAccounts'})
@@ -44,7 +44,6 @@ function Explorer(){
             setUserbalace(ethers.utils.formatEther(balance));
         })
     }
-
     // const networks = {
     //     localhostNet: {
     //         chainId: `0x${Number(1337).toString(16)}`,
@@ -94,7 +93,6 @@ function Explorer(){
         </div>
 </div>
     )
+
 }
-
-
 export default Explorer

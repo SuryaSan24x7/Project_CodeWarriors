@@ -16,7 +16,7 @@ exports.createPost = async (req, res) => {
       postYear: req.body.postYear,
       postDimension: req.body.postDimension,
       postSqArea: req.body.postSqArea,
-      userAddress: "0xDD88e7f6619AE0971d80Fca2F5190d0a71F1d9f2"
+      userAddress: "0xc67e5FFF9316476236B104993d91309170bb7BAC"
     };
     const post = new Post(data);
     console.log(data);
@@ -31,7 +31,7 @@ exports.createPost = async (req, res) => {
     console.log('Transaction Hash : ', txReceipt.transactionHash);
     console.log('Block Number : ', txReceipt.blockNumber);
     let returnValue = txReceipt.events.RNFTTokenMinted.returnValues;
-    console.log('Events', txReceipt.events.RNFTTokenMinted.returnValues);
+    console.log('Events',returnValue);
 
     console.log(' ID', returnValue.id);
     

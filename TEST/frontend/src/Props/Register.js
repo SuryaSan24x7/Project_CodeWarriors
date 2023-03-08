@@ -66,7 +66,7 @@ function Register(){
     return (
         <div className="container-fluid" style={{ backgroundImage: `url(${background})` , backgroundSize:`cover`}}>
         <div className="row justify-content-center align-items-center" style={{height:"98vh"}}>
-            <div className="col-4 shadow p-5 text-center bg-white">
+            <div className="col-4 shadow p-5 text-center" style={{backgroundColor : `rgba(255, 255, 255, 0.5)`}}>
                 <p className="fst-italic">{msg}</p>
                <p className="reg">Register</p>
                 <input type="text" className="form-control form-control-sm mb-3" placeholder="Name" onChange={(e) => {setName(e.target.value)}}/>

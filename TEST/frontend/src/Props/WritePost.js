@@ -177,6 +177,7 @@ function WritePost() {
             Additional Details
           </label>
         </div>
+        
         </div>
         
       </div>

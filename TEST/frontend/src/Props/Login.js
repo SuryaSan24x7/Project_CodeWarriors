@@ -48,7 +48,7 @@ function Login(){
       <div className="container-fluid" style={{ backgroundImage: `url(${background})`, backgroundSize:`cover` }}>
         <div className="row justify-content-center align-items-center" style={{height:"98vh"}}>
           
-            <div className="col-4 shadow p-5 text-center bg-white">
+            <div className="col-4 shadow p-5 text-center" style={{backgroundColor : `rgba(255, 255, 255, 0.5)`}}>
               <form onSubmit={handleSubmit}>
                 <p className="fst-italic">{msg}</p>
                 <p className="login_1">Login</p>
