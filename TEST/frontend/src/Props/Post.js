@@ -1,13 +1,40 @@
 import "../Style.css"
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Cart from "./Cart";
 function Post(props) {
 	const navigate=useNavigate();
+	const [postData, setPostData] = useState({
+		postType: props?.postData?.postType,
+		postCity: props?.postData?.postCity,
+		postState: props?.postData?.postState,
+		postDistrict: props?.postData?.postDistrict,
+		postYear: props?.postData?.postYear,
+		postDimensions: props?.postData?.postDimensions,
+		postSqArea: props?.postData?.postSqArea,
+		postText: props?.postData?.postText,
+		postImage: props?.postData?.postImage,
+	  });
 	const CartBtn = () =>{ 
-		<Cart props/>
-        let path = `/cart`; 
-      navigate(path);
-      }
+		let btn = props?.postData?.userId;
+		// <Cart postData={postData} />;
+		// navigate('/cart');
+		fetch('/cart', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+			  userId: btn
+			})
+		  })
+		  .then(res => res.json())
+		  .then(data => {
+			console.log(data); // do something with the data
+		  })
+		  .catch(err => console.error(err));
+		  navigate('/cart');
+      } 
 	return (
 		<div className="container-fluid p-3 border bg-white shadow mb-2">
 			<div className="d-flex">
