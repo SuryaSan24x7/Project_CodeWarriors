@@ -1,7 +1,7 @@
 import { useAuth } from "../Auth/Auth"
 import "../Style.css"
 import { Link,useNavigate } from "react-router-dom"
-import Userimg from "./user/pic/Cabbage.jpg" 
+// import Userimg from "./user/pic/Cabbage.jpg" 
 function Sidebar(){
     const {user,logout} = useAuth()
     const navigate = useNavigate()
@@ -24,7 +24,7 @@ function Sidebar(){
         <div className="container-fluid">
             <div className="row">
                 <div className="col-12">
-                <img src={Userimg} className="img-fluid user-pic rounded-3"/>
+                <img src={"/user/pic/"+user?.pic} className="img-fluid user-pic "/>
                 </div>
             </div>
             <div className="row" >

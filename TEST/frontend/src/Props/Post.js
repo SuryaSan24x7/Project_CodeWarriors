@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Cart from "./Cart";
 function Post(props) {
 	const navigate=useNavigate();
+	const [msg, setMsg] = useState("");
 	const [postData, setPostData] = useState({
 		postType: props?.postData?.postType,
 		postCity: props?.postData?.postCity,
@@ -15,26 +16,62 @@ function Post(props) {
 		postText: props?.postData?.postText,
 		postImage: props?.postData?.postImage,
 	  });
+	
+	//   function cartdetail( required props){
+	// 	userdetail( fetched props)
+	// 	postdetail(fetched props)
+	//   }
+	//    userdtail function( fetch -> props)
+	//    postdetail function ( fetch -> props)
+
+
+	// const CartBtn = () =>{ 
+	// 	let btn = props?.postData?.userId;
+	// 	// <Cart postData={postData} />;
+	// 	// navigate('/cart');
+	// 	fetch('/cart', {
+	// 		method: 'POST',
+	// 		headers: {
+	// 		  'Content-Type': 'application/json'
+	// 		},
+	// 		body: JSON.stringify({
+	// 		  userId: btn
+	// 		})
+	// 	  })
+	// 	  .then(res => res.json())
+	// 	  .then(data => {
+	// 		console.log(data); // do something with the data
+	// 	  })
+	// 	  .catch(err => console.error(err));
+	// 	  navigate('/cart');
+    // //   } 
 	const CartBtn = () =>{ 
-		let btn = props?.postData?.userId;
-		// <Cart postData={postData} />;
-		// navigate('/cart');
-		fetch('/cart', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-			  userId: btn
+
+        fetch("/cart", {
+            method: "POST",
+            body: props
 			})
-		  })
-		  .then(res => res.json())
-		  .then(data => {
-			console.log(data); // do something with the data
-		  })
-		  .catch(err => console.error(err));
-		  navigate('/cart');
-      } 
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.type === "success") {
+                setMsg(
+                  <span className="fst-italic text-success">
+                    <span className="material-icons-outlined">done</span>
+                    {data.msg}
+                  </span>
+                );
+              } else {
+                setMsg(
+                  <span className="fst-italic text-danger">
+                    <span className="material-icons-outlined">close</span>
+                    {data.msg}
+                  </span>
+                );
+              }
+            })
+            .catch((err) => console.log(err));
+			navigate('/cart');
+        };
 	return (
 		<div className="container-fluid p-3 border bg-white shadow mb-2">
 			<div className="d-flex">

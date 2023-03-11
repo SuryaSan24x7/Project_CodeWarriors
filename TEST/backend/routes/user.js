@@ -21,4 +21,4 @@ router.put("/", authController.authorizeToken,upload.single('pic'), userControll
 router.get("/pic/:userpic", userController.getPic)
 // router.get("/post", authController.authorizeToken, userController.getpost)
 
-module.exports = router;
+module.exports = router

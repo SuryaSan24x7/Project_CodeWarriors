@@ -22,10 +22,11 @@ exports.updateUser = (req, res, next) => {
 			res.send({ type: "error", msg: "Failed to update the profile" });
 		});
 };
-
 exports.getPic = (req, res, next) => {
-	const picName = req.params.userpic;
-	res.sendFile(picName, { root: "media/user" });
+	const { userpic } = req.params ;
+	const picName = userpic ;
+	// res.sendFile(picName, { root: "media/user/pic" });
+	res.sendFile(picName, { root: "media/user/pic/" ,headers: { 'Content-Type': 'image/jpeg' }});
 	// User.findOne({ _id: req.user._id })
 	// 	.then((usr) => {
 	// 		if (usr) {

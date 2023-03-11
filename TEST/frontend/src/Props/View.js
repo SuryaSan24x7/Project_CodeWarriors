@@ -25,6 +25,7 @@ function View() {
 			</div>
 			<div className="col-4">
 				{posts.map(postData => <Post postData={postData}/>)}
+
 			</div>
 		</div>
 	);
