@@ -6,19 +6,18 @@ exports.createCart = async (req, res) => {
   try {
     var data = {
       userId: req.user._id,
-      postText: req.body.postText,
-      postImage: req.file.filename,
-      postType: req.body.postType,
-      postCity: req.body.postCity,
-      postState: req.body.postState,
-      postDistrict: req.body.postDistrict,
-      postAddress: req.body.postAddress,
-      postYear: req.body.postYear,
-      postDimension: req.body.postDimension,
-      postSqArea: req.body.postSqArea,
+      postText: req.body.postData.postText,
+      postImage: req.body.postData.filename,
+      postType: req.body.postData.postType,
+      postCity: req.body.postData.postCity,
+      postState: req.body.postData.postState,
+      postDistrict: req.body.postData.postDistrict,
+      postAddress: req.body.postData.postAddress,
+      postYear: req.body.postData.postYear,
+      postDimension: req.body.postData.postDimension,
+      postSqArea: req.body.postData.postSqArea,
     };
     const cart = new Cart(data);
-    console.log(data);
     await cart.save();
     res.send({ type: "success", msg: "Cart updated successfully" });
   } catch (err) {
@@ -30,10 +29,10 @@ exports.createCart = async (req, res) => {
 // Function to get cart items for a user
 exports.getCart = async (req, res, next) => {
   try {
-    const user = await User.findOne({ _id: req.user._id });
+    const user = await User.findOne({_id: req.user._id });
     let idList = user.posts.map((item) => item.postId);
     idList.unshift(req.user._id);
-    const cartList = await Cart.find({ userId: { $in: idList } }).populate({
+    const cartList = await Cart.findOne({ userId: { $in: idList } }).populate({
       path: "userId",
       select: "_id name pic",
     });

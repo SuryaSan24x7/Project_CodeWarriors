@@ -15,7 +15,6 @@ function Login(){
       login(email, password)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
           if(data.type === "error"){
             setMsg(<span className="text-danger">{data.msg}</span>)
           }else{

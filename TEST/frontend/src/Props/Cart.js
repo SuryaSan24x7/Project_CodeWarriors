@@ -4,17 +4,24 @@ import View from "./View"
 import Postv2 from "./Postv2.js"
 
 function Cart() {
-    const [posts, setPosts] = useState([]);
-
-    const getPosts = function () {
-        fetch("/cart/all", {
-            method: "GET",
+    const [posts, setPosts] = useState({});
+    var post;
+    const getPosts = async function () {
+        let res = await fetch("/cart/all",{
+            method:"GET"
         })
-            .then((res) => res.json())
-            .then((data) => {
-                if (!data.msg) setPosts(data);
-            })
-            .catch((err) => console.log(err));
+        post = await res.json()
+        console.log(post)
+        //setPosts(data)
+        // .then((res) => {
+        //     res.json()
+        // })
+        // .then((data) => {
+        //         if(!data.msg) {
+        //             setPosts(data);
+        //         }
+        // })
+        // .catch((err) => console.log(err));
     };
     useEffect(()=>{
         getPosts()
@@ -25,7 +32,7 @@ function Cart() {
                 <div className="col-4 mt-2 mb-2 fs-3">Cart</div>
             </div>
             <div className="col-4">
-            <Postv2 postData/>
+            <Postv2 post={post}/>
             </div>
             <div>
 

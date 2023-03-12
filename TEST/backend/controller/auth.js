@@ -71,7 +71,6 @@ exports.authorizeToken = (req, res, next) => {
     });
   } else {
     res.cookie("token", "");
-    console.log(err)
     res.status(401).send({ msg: "ACCESS_DENIED" });
   }
 };

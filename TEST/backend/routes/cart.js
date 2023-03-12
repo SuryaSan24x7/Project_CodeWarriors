@@ -21,6 +21,6 @@ const { models } = require("mongoose")
 // const upload = multer({storage: storage})
 
 router.post("/",authController.authorizeToken, cartController.createCart)
-router.get("/all", cartController.getCart)
+router.get("/all", authController.authorizeToken, cartController.getCart)
 // router.put("/",userController.updateCart)
 module.exports = router

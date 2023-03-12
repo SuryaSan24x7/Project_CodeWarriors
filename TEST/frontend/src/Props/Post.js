@@ -46,10 +46,10 @@ function Post(props) {
 	// 	  navigate('/cart');
     // //   } 
 	const CartBtn = () =>{ 
-
         fetch("/cart", {
             method: "POST",
-            body: props
+			headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(props)
 			})
             .then((res) => res.json())
             .then((data) => {
