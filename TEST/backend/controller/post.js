@@ -5,7 +5,7 @@ const contractInstance = require("../helpers/getContractInstance");
 
 
 exports.createPost = async (req, res) => {
-  // try {
+  try {
     var data = {
       userId: req.user._id,
       postText: req.body.postText,
@@ -18,7 +18,7 @@ exports.createPost = async (req, res) => {
       postYear: req.body.postYear,
       postDimension: req.body.postDimension,
       postSqArea: req.body.postSqArea,
-      userAddress: "0xDC1f5CA2661404b2c9544E529bB2D65DfABA03c0"
+      userAddress: "0xc67e5FFF9316476236B104993d91309170bb7BAC"
     };
     const post = new Post(data);
     console.log(data);
@@ -42,10 +42,10 @@ exports.createPost = async (req, res) => {
     //TODO: insert required data into database
     await post.save();
     res.send({ type: "success", msg: "post created successfully" });
-  // } catch (err) {
-  //   console.log(err);
-  //   res.send({ type: "danger", msg: "failed to save post" });
-  // }
+  } catch (err) {
+    console.log(err);
+    res.send({ type: "danger", msg: "failed to save post" });
+  }
 };
 exports.updatePost = (req, res, next) => {
   console.log(req.body._id);
