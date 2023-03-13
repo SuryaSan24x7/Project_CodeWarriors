@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react"
-import Post from "./Post"
+import Post from "./PopUp"
 
 function Newsfeed() {
 	const [posts, setPosts] = useState([]);

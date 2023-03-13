@@ -29,13 +29,15 @@ exports.createCart = async (req, res) => {
 // Function to get cart items for a user
 exports.getCart = async (req, res, next) => {
   try {
-    const user = await User.findOne({_id: req.user._id });
-    let idList = user.posts.map((item) => item.postId);
-    idList.unshift(req.user._id);
-    const cartList = await Cart.findOne({ userId: { $in: idList } }).populate({
+    // const user = await User.findOne({_id: req.user._id });
+    // let idList = user.posts.map((item) => item.postId);
+    // idList.unshift(req.user._id);
+    const cartList = await Cart.findOne({ userId:req.user._id }).populate({
       path: "userId",
+      model: "user",
       select: "_id name pic",
     });
+    console.log(cartList);
     res.send(cartList);
   } catch (err) {
     console.log(err);

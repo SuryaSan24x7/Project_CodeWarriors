@@ -13,7 +13,9 @@ const PostSchema = new mongoose.Schema(
         postYear: {type: String},
         postDimension: {type: String},
         postSqArea: {type: String},
-        userAddress: {type: String}
+        userAddress: {type: String},
+        price: {type : String},
+        list: { type : String}
     },
     {
         timestamps: true,

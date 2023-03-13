@@ -5,13 +5,12 @@ import Postv2 from "./Postv2.js"
 
 function Cart() {
     const [posts, setPosts] = useState({});
-    var post;
-    const getPosts = async function () {
+    const [post, setPost] = useState({});
+    const getPosts1 = async function () {
         let res = await fetch("/cart/all",{
             method:"GET"
         })
-        post = await res.json()
-        console.log(post)
+        setPost(await res.json());
         //setPosts(data)
         // .then((res) => {
         //     res.json()
@@ -24,15 +23,33 @@ function Cart() {
         // .catch((err) => console.log(err));
     };
     useEffect(()=>{
-        getPosts()
+        getPosts1()
     },[])
+
+	const getPosts = function () {
+		fetch("/post/lists", {
+			method: "GET",
+		})
+		.then((res) => res.json())
+		.then((data) => {
+				if(!data.msg) setPosts(data);
+			})
+			.catch((err) => console.log(err));
+	};
+	useEffect(()=>{
+		// getPosts()
+	},[])
+
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-4 mt-2 mb-2 fs-3">Cart</div>
             </div>
             <div className="col-4">
+                {/* <Postv2 post /> */}
             <Postv2 post={post}/>
+            {/* {posts.filter(postData => postData._id === post._id ).map(postData => ( */}
+            {/* <View key={postData._id} postData={postData} />))} */}
             </div>
             <div>
 
