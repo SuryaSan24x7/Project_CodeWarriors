@@ -15,36 +15,9 @@ function Post(props) {
 		postSqArea: props?.postData?.postSqArea,
 		postText: props?.postData?.postText,
 		postImage: props?.postData?.postImage,
+		postOwner:props?.postData?.postOwner
 	  });
 	
-	//   function cartdetail( required props){
-	// 	userdetail( fetched props)
-	// 	postdetail(fetched props)
-	//   }
-	//    userdtail function( fetch -> props)
-	//    postdetail function ( fetch -> props)
-
-
-	// const CartBtn = () =>{ 
-	// 	let btn = props?.postData?.userId;
-	// 	// <Cart postData={postData} />;
-	// 	// navigate('/cart');
-	// 	fetch('/cart', {
-	// 		method: 'POST',
-	// 		headers: {
-	// 		  'Content-Type': 'application/json'
-	// 		},
-	// 		body: JSON.stringify({
-	// 		  userId: btn
-	// 		})
-	// 	  })
-	// 	  .then(res => res.json())
-	// 	  .then(data => {
-	// 		console.log(data); // do something with the data
-	// 	  })
-	// 	  .catch(err => console.error(err));
-	// 	  navigate('/cart');
-    // //   } 
 	const CartBtn = () =>{ 
         fetch("/cart", {
             method: "POST",
@@ -96,6 +69,7 @@ function Post(props) {
 					<span>{props?.postData?.postDimensions}</span>
 					<span>{props?.postData?.postSqArea}</span>
 					<span>{props?.postData?.postText}</span>
+					<span>{props?.postData?.postOwner}</span>
 				</div>
 			</div>
 			<div className="row">

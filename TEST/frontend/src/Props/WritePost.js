@@ -1,14 +1,44 @@
 import { useRef, useState } from "react";
+import { useAuth } from "../Auth/Auth";
 import "../Style.css";
+import {ethers} from 'ethers';
 
 function WritePost() {
+   // const ethers = require("ethers")
+   const {user} = useAuth()
+   const [errorMessage,setErrorMessage] = useState();
+   const [defaultAccount,setDefaultAccount] = useState();
+   const [userBalance,setUserbalace] = useState();
+   const connectWallet = () => {
+       if (window.ethereum){
+           window.ethereum.request({method: 'eth_requestAccounts'})
+           .then(result => {
+               accountChanged([result[0]])
+           })
+       } else {
+           setErrorMessage('Install Metamask!')
+       }
+   }
+
+   const accountChanged = (accountName) => {
+       setDefaultAccount(accountName)
+       getUserBalance(accountName)
+   }
+
+   const getUserBalance = (accountAddress) => {
+       window.ethereum.request({method: 'eth_getBalance', params: [String(accountAddress),"latest"]})
+       .then(balance => {
+           setUserbalace(ethers.utils.formatEther(balance));
+       })
+   }
+
   const [postText, setPostText] = useState("");
   const [postState, setPostState] = useState("");
   const [postDistrict, setPostDistrict] = useState("");
   const [postCity, setPostCity] = useState("");
   const [postDimensions,setPostDimensions]=useState("");
   const [postSqArea,setPostSqArea]=useState("");
-  const [postOwner, setPostOwner] = useState("");
+  const [postOwner, setPostOwner] = useState(user.name);
   const [postType,setPostType]=useState("");
   const [postYear,setPostYear]=useState("");
   const postImageRef = useRef();
@@ -25,6 +55,8 @@ function WritePost() {
     data.append("postYear",postYear);
     data.append("postDimensions",postDimensions);
     data.append("postSqArea",postSqArea);
+    data.append("postOwner",postOwner);
+    data.append("userAddress",accountChanged)
     fetch("/post", {
       method: "POST",
       body: data,
@@ -58,7 +90,12 @@ function WritePost() {
       <div className="row p-5">
         <div className="text-center mb-3">{msg}</div>
         <div className="form-floating">
-          
+        <div>
+            {/* <h6>MetaMask Wallet</h6> */}
+            <button onClick={connectWallet}>Connect Wallet</button>
+            <h6>Address: {defaultAccount} </h6>
+            <h6>Balance is :{userBalance} </h6>
+        </div>
           <select
             id="propertyType"
             name="propertyType"
@@ -159,10 +196,10 @@ function WritePost() {
 			<input
 			  type="text"
 			  id="Owner"
-			  name="Qwner"
+			  name="Owner"
 			  className="form-control"
 			  value={postOwner}
-			  onChange={(e) => setPostOwner(e.target.value)}
+			  onChange={(e) => setPostOwner(user.name)}
 			/>
 		  </div>
         <div>

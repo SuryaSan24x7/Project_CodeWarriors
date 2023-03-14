@@ -15,6 +15,7 @@ function Post(props) {
 		postSqArea: props?.postData?.postSqArea,
 		postText: props?.postData?.postText,
 		postImage: props?.postData?.postImage,
+        postOwner:props?.postData?.postOwner
 	  });
     const [showForm, setShowForm] = useState(false);
       
@@ -74,6 +75,7 @@ function Post(props) {
 					<span>{props?.postData?.postDimensions}</span>
 					<span>{props?.postData?.postSqArea}</span>
 					<span>{props?.postData?.postText}</span>
+                    <span>{props?.postData?.postOwner}</span>
 				</div>
 			</div>
 			<div className="row">

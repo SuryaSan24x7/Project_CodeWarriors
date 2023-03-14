@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Ledger=require("../models/Ledger");
 const contractInstance = require("../helpers/getContractInstance");
 
 
@@ -18,7 +19,7 @@ exports.createPost = async (req, res) => {
       postYear: req.body.postYear,
       postDimension: req.body.postDimension,
       postSqArea: req.body.postSqArea,
-      userAddress: "0xc67e5FFF9316476236B104993d91309170bb7BAC"
+      userAddress: req.body.userAddress
     };
     const post = new Post(data);
     console.log(data);
@@ -40,6 +41,24 @@ exports.createPost = async (req, res) => {
     // console.log('REsult -----> ', owner);
 
     //TODO: insert required data into database
+    var data2={
+      userId: req.user._id,
+      postText: req.body.postText,
+      postImage: req.file.filename,
+      postType: req.body.postType,
+      postCity: req.body.postCity,
+      postState: req.body.postState,
+      postDistrict: req.body.postDistrict,
+      postAddress: req.body.postAddress,
+      postYear: req.body.postYear,
+      postDimension: req.body.postDimension,
+      postSqArea: req.body.postSqArea,
+      userAddress: req.body.userAddress,
+      txn_id:returnValue.id
+    }
+    const Ledger = new Ledger(data2);
+
+
     await post.save();
     res.send({ type: "success", msg: "post created successfully" });
   } catch (err) {
@@ -104,13 +123,46 @@ exports.getPosts = async (req, res, next) => {
 
 exports.getAllPosts = async (req, res, next) => {
   try {
+    if(Post.list="1"){
     const postList = await Post.find({}).populate({
       path: "userId",
       select: "_id name pic",
     });
-    res.send(postList);
+    res.send(postList);}
   } catch (err) {
     console.log(err);
     res.send({ type: "error", msg: "failed to fetch property lists" });
   }
+
 };
+exports.sellPost = async (req, res, next) => {
+  console.log(req.body._id);
+	Post.findOneAndUpdate(
+		{ _id: mongoose.Types.ObjectId(req.body._id)},
+		{
+			$set: {
+				new_owner: req.body.new_owner,
+				old_owner: req.body.userAddress,
+        list:"0"
+			},
+		},
+		{ new: true }
+	)
+		.then((data) => {
+      console.log(data);
+			res.send({ type: "success", msg: "Sold" });
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({ type: "error", msg: "Failed to Sell" });
+		});
+};
+exports.updateLedger =async(req,res) => {
+  try {
+    
+    
+    await post.save();
+    res.send({ type: "Transaction added to Ledger", msg: "Ledger successfully updated" });
+}catch{}
+};
+
