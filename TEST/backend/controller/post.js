@@ -19,8 +19,7 @@ exports.createPost = async (req, res) => {
       postYear: req.body.postYear,
       postDimension: req.body.postDimension,
       postSqArea: req.body.postSqArea,
-      userAddress: req.body.userAddress,
-      old_owner:req.body.userAddress
+      userAddress: req.body.userAddress
     };
     const post = new Post(data);
     console.log(data);
@@ -57,10 +56,10 @@ exports.createPost = async (req, res) => {
       userAddress: req.body.userAddress,
       txn_id:returnValue.id
     }
-    const Ledger = new Ledger(data2);
-
+    const ledger = new Ledger(data2);
 
     await post.save();
+    await ledger.save();
     res.send({ type: "success", msg: "post created successfully" });
   } catch (err) {
     console.log(err);
@@ -158,31 +157,24 @@ exports.sellPost = async (req, res, next) => {
 		});
 };
 exports.updateLedger =async(req,res) => {
-  try {
-    console.log(req.body._id);
+  console.log(req.body._id);
 	Ledger.findOneAndUpdate(
 		{ _id: mongoose.Types.ObjectId(req.body._id)},
 		{
 			$set: {
 				new_owner: req.body.new_owner,
-				list: "0",
-        old_owner:req.body.userAddress
+				list: req.body.list
 			},
 		},
 		{ new: true }
 	)
 		.then((data) => {
       console.log(data);
-			res.send({ type: "success", msg: "Successfully updated profile" });
+			res.send({ type: "success", msg: "Successfully updated Ledger" });
 		})
 		.catch((err) => {
 			console.log(err);
-			res.send({ type: "error", msg: "Failed to update the profile" });
+			res.send({ type: "error", msg: "Failed to update the Ledger" });
 		});
-    
-    
-    await post.save();
-    res.send({ type: "Transaction added to Ledger", msg: "Ledger successfully updated" });
-}catch{}
 };
 

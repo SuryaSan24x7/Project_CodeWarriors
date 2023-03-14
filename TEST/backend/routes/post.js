@@ -23,7 +23,7 @@ router.post("/", authController.authorizeToken,upload.single("postImage"),postCo
 router.get("/all", authController.authorizeToken, postController.getPosts)
 router.get("/lists", postController.getAllPosts)
 router.get("/pic/:postpic", postController.getPic)
-router.put("/", authController.authorizeToken,upload.single("postImage") , postController.updatePost);
+router.put("/", authController.authorizeToken, postController.updatePost);
 router.put("/",authController.authorizeToken,postController.sellPost);
-router.post("/ledger",authController.authorizeToken,postController.updateLedger);
+router.put("/",authController.authorizeToken,postController.updateLedger);
 module.exports = router

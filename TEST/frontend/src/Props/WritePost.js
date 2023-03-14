@@ -56,7 +56,7 @@ function WritePost() {
     data.append("postDimensions",postDimensions);
     data.append("postSqArea",postSqArea);
     data.append("postOwner",postOwner);
-    data.append("userAddress",accountChanged)
+    data.append("userAddress",defaultAccount)
     fetch("/post", {
       method: "POST",
       body: data,
