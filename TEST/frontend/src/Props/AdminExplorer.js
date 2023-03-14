@@ -7,6 +7,7 @@ import {ethers} from 'ethers';
 import background from "../bg/test3.jpg";
 import View from "./View";
 import TestFeed from "./TestFeed";
+import TestView from "./TestView";
 
 function AdminExplorer(){
     let navigate = useNavigate(); 
@@ -74,7 +75,7 @@ function AdminExplorer(){
      </div>
 <div style={{ backgroundImage: `url(${background})`, backgroundSize:`cover`} }>
         <div className="col-10 border-start border-secondary">
-                    <TestFeed />
+                    <TestView/>
                 </div>
 </div>
         </div>

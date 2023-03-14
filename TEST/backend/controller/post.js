@@ -123,12 +123,11 @@ exports.getPosts = async (req, res, next) => {
 
 exports.getAllPosts = async (req, res, next) => {
   try {
-    if(Post.list="1"){
-    const postList = await Post.find({}).populate({
+    const postList = await Post.find({ list: "1" }).populate({
       path: "userId",
       select: "_id name pic",
     });
-    res.send(postList);}
+    res.send(postList);
   } catch (err) {
     console.log(err);
     res.send({ type: "error", msg: "failed to fetch property lists" });
@@ -174,7 +173,7 @@ exports.updateLedger =async(req,res) => {
 		})
 		.catch((err) => {
 			console.log(err);
-			res.send({ type: "error", msg: "Failed to update the Ledger" });
+			res.send({ type: "error", msg: "Failed to update the profile" });
 		});
 };
 

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {ethers} from 'ethers';
 import { useNavigate } from "react-router-dom";
 import Cart from "./Cart";
-function TestPost(props) {
+function TestPostv2(props) {
 	const navigate=useNavigate();
     const [errorMessage,setErrorMessage] = useState();
    const [defaultAccount,setDefaultAccount] = useState();
@@ -121,7 +121,7 @@ function TestPost(props) {
 			</div>
 			<div className="row">
 				<div className="col mt-1 mb-2">
-					<span>{props?.postData?.postType}</span>
+                <span>{props?.postData?.postType}</span><br></br>
 					{/* <span>{props?.postData?.postCity}</span>
 					<span>{props?.postData?.postState}</span>
 					<span>{props?.postData?.postDistrict}</span>
@@ -138,24 +138,7 @@ function TestPost(props) {
 			</div>
             
             <>
-      <button onClick={handleClick} disabled={isSubmitting}>Enlist Post</button>
-      {showForm && (
-        <div className="form-popup">
-        <form onSubmit={handleSubmit}>
-                        <input type="text" name="price" className="form-control form-control-sm" placeholder="Enter price" defaultValue={postData.price} required />
-                        <div className="mb-3">
-                            <span className="me-3">Enlist:</span>
-                            <input type="radio" name="list" className="me-2" value="1" defaultChecked={postData.list === "Listed"} />Listed
-                            <input type="radio" name="list" className="ms-3 me-2" value="0" defaultChecked={postData.list === 'Not listed'} />Not Listed
-                        </div>
-                        <div className="text-center">
-                            <button className="btn btn-primary btn-sm px-5" disabled={isSubmitting}>List
-                            {isSubmitting ? "Listing..." : "List"}</button>
-                        </div>
-                    </form>
-
-        </div>
-      )}
+    
       <button onClick={handleClick2}>Sell</button>
       {showForm2 && (
         <div className="form-popup">
@@ -180,5 +163,5 @@ function TestPost(props) {
 	);
 }
 
-export default TestPost;
+export default TestPostv2;
 
