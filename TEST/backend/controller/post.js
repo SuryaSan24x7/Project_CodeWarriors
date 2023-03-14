@@ -19,7 +19,8 @@ exports.createPost = async (req, res) => {
       postYear: req.body.postYear,
       postDimension: req.body.postDimension,
       postSqArea: req.body.postSqArea,
-      userAddress: req.body.userAddress
+      userAddress: req.body.userAddress,
+      old_owner:req.body.userAddress
     };
     const post = new Post(data);
     console.log(data);
@@ -142,7 +143,6 @@ exports.sellPost = async (req, res, next) => {
 		{
 			$set: {
 				new_owner: req.body.new_owner,
-				old_owner: req.body.userAddress,
         list:"0"
 			},
 		},
@@ -159,6 +159,26 @@ exports.sellPost = async (req, res, next) => {
 };
 exports.updateLedger =async(req,res) => {
   try {
+    console.log(req.body._id);
+	Ledger.findOneAndUpdate(
+		{ _id: mongoose.Types.ObjectId(req.body._id)},
+		{
+			$set: {
+				new_owner: req.body.new_owner,
+				list: "0",
+        old_owner:req.body.userAddress
+			},
+		},
+		{ new: true }
+	)
+		.then((data) => {
+      console.log(data);
+			res.send({ type: "success", msg: "Successfully updated profile" });
+		})
+		.catch((err) => {
+			console.log(err);
+			res.send({ type: "error", msg: "Failed to update the profile" });
+		});
     
     
     await post.save();

@@ -60,7 +60,7 @@ function TestPost(props) {
         data.append("new_owner", e.target.new_owner.value)
         data.append("price", e.target.price.value)
         console.log(data);
-        fetch("/legder", {
+        fetch("/post", {
             method: "PUT",
             body: data
         })

@@ -14,6 +14,7 @@ const PostSchema = new mongoose.Schema(
         postDimension: {type: String},
         postSqArea: {type: String},
         userAddress: {type: String},
+        old_user:{type:String},
         price: {type : String},
         list: { type : String}
     },
