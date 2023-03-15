@@ -24,6 +24,6 @@ router.get("/all", authController.authorizeToken, postController.getPosts)
 router.get("/lists", postController.getAllPosts)
 router.get("/pic/:postpic", postController.getPic)
 router.put("/", authController.authorizeToken, postController.updatePost);
-router.put("/",authController.authorizeToken,postController.sellPost);
-router.put("/",authController.authorizeToken,postController.updateLedger);
+router.post("/sell",authController.authorizeToken,postController.sellPost);
+// router.put("/",authController.authorizeToken,postController.updateLedger);
 module.exports = router

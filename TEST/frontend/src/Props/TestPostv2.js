@@ -89,8 +89,8 @@ function TestPostv2(props) {
         data.append("new_owner", e.target.new_owner.value)
         data.append("price", e.target.price.value)
         console.log(data);
-        fetch("/post", {
-            method: "PUT",
+        fetch("/post/sell", {
+            method: "POST",
             body: data
         })
         .then((res) => res.json())

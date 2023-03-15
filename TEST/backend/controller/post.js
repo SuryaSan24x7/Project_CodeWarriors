@@ -320,23 +320,36 @@ exports.updatePost = async (req, res, next) => {
     )
   console.log('List property for sale', req.body);
   const { REToken, MyRealEstate } = await contractInstance.getInstance();
-  // let txObj = await contractInstance.getTxObject(result.userAddress);
+  let txObj = await contractInstance.getTxObject("0xc67e5FFF9316476236B104993d91309170bb7BAC");
   let isPropertyForSale = false;
   if(req.body.list == '1'){
     isPropertyForSale = true;
   }
   // Smart contract call to list property for sale
-  let txReceipt = await MyRealEstate.methods.listPropertyForSale(result.tokenId, req.body.price, isPropertyForSale).send(txObj);
-  console.log('TxReceipt for listPreoertyForSale', txReceipt);
+  // let txReceipt = await MyRealEstate.methods.listPropertyForSale(result.tokenId, req.body.price, isPropertyForSale).send(txObj);
+  let txReceipt = await MyRealEstate.methods.listPropertyForSale(1, 100, true).send(txObj);
+  console.log('TxReceipt', txReceipt);
   //TODO: get the required data from events and push to database
 
   // Smart contract call to setApprovalForAll 
   // this allows Escrow contract to transfer the NFT token to buyer on behalf of owner
   let escrowContractAddress = await MyRealEstate.methods.getEscrowContractAddress().call();
   console.log('Escrow Contract Address', escrowContractAddress);
-  txReceipt = await REToken.methods.setApprovalForAll(escrowContractAddress, isPropertyForSale).send(txObj);
+  txReceipt = await REToken.methods.setApprovalForAll(escrowContractAddress, true).send(txObj);
+  // txReceipt = await REToken.methods.setApprovalForAll(escrowContractAddress, isPropertyForSale).send(txObj);
+
   console.log('Tx Receipt for setApprovalForAll', txReceipt);
   //TODO: get the required data from events and push to database
+  txObj = await contractInstance.getTxObject("0xDC1f5CA2661404b2c9544E529bB2D65DfABA03c0");
+
+  txReceipt = await MyRealEstate.methods.PurchaseERC20Tokens(100,"0xDC1f5CA2661404b2c9544E529bB2D65DfABA03c0","URI", "UPI-ID").send(txObj);
+  console.log('TxObj for purchaseERC20 Tokens------', txReceipt);
+   txReceipt = await REToken.methods.setApprovalForAll(escrowContractAddress, true).send(txObj);
+
+  txReceipt = await MyRealEstate.methods.purchaseProperty(1).send(txObj);
+  console.log('Tx Receipt for Purchase Property', txReceipt);
+  console.log(txReceipt.events.PropertyTransferred);
+
   res.send({ type: "success", msg: "Property is listed for sale" });
 
   } catch (error) {
@@ -394,25 +407,40 @@ exports.getAllPosts = async (req, res, next) => {
 
 };
 exports.sellPost = async (req, res, next) => {
-  console.log(req.body._id);
-	Post.findOneAndUpdate(
-		{ _id: mongoose.Types.ObjectId(req.body._id)},
-		{
-			$set: {
-				new_owner: req.body.new_owner,
-        list:"0"
-			},
-		},
-		{ new: true }
-	)
-		.then((data) => {
-      console.log(data);
-			res.send({ type: "success", msg: "Sold" });
-		})
-		.catch((err) => {
-			console.log(err);
-			res.send({ type: "error", msg: "Failed to Sell" });
-		});
+  console.log('in sell POST--------->',req.body._id);
+  try {
+   await Post.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(req.body._id)},
+      {
+        $set: {
+          new_owner: req.body.new_owner,
+          list:"0"
+        },
+      },
+      { new: true }
+    )
+
+     // Call to Blockchain : purchaseProperty function
+     const { REToken, MyRealEstate } = await contractInstance.getInstance();
+     // console.log('MyRealEstate Methods: ', MyRealEstate.methods);
+     let txObj = await contractInstance.getTxObject(0xaEB882cA783fE32F2e58fee2296DD4E17dA7b6ed);
+ 
+     let txReceipt = await MyRealEstate.methods.PurchaseERC20Tokens(100, 0xaEB882cA783fE32F2e58fee2296DD4E17dA7b6ed,"URI", "UPI-ID").send(txObj);
+     console.log('TxObj for purchaseERC20 Tokens------', txReceipt);
+     let escrowContractAddress = await MyRealEstate.methods.getEscrowContractAddress().call();
+      console.log('Escrow Contract Address', escrowContractAddress);
+      txReceipt = await REToken.methods.setApprovalForAll(escrowContractAddress, true).send(txObj);
+
+     txReceipt = await REToken.methods.purchaseProperty(1).send(txObj);
+     console.log('Tx Receipt for Purchase Property', txReceipt);
+
+  } catch (error) {
+    console.log(error);
+    res.send({ type: "error", msg: "Failed to Sell" });
+  }
+
+  console.log(data);
+  res.send({ type: "success", msg: "Sold" });
 };
 exports.updateLedger =async(req,res) => {
   console.log(req.body._id);
