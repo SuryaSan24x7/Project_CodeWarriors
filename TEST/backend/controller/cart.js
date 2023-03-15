@@ -1,5 +1,6 @@
 const Cart = require("../models/Cart");
 const User = require("../models/User");
+const contractInstance = require("../helpers/getContractInstance");
 
 // POST endpoint for adding items to cart
 exports.createCart = async (req, res) => {
@@ -63,33 +64,43 @@ exports.getAddedCart = async (req, res, next) => {
 };
 
 
-exports.updateCart = (req, res, next) => {
-  Cart.findOneAndUpdate(
+exports.updateCart = async (req, res, next) => {
+  //Buy Property
+  try {
+    let result = await Cart.findOneAndUpdate(
       { _id: req.user._id },
       {
-          $set: {
-              postText: req.body.postText,
-              postImage: req.file.filename,
-              postType: req.body.postType,
-              postCity: req.body.postCity,
-              postState: req.body.postState,
-              postDistrict: req.body.postDistrict,
-              postAddress: req.body.postAddress,
-              postYear: req.body.postYear,
-              postDimension: req.body.postDimension,
-              postSqArea: req.body.postSqArea,
-              userAddress: "0x0e97c9BC912D6e26fE6854dC5FBC2eAD62a662a8",
-              newOwnerAddress:req.body.newOwner
-          },
+        $set: {
+          postText: req.body.postText,
+          postImage: req.file.filename,
+          postType: req.body.postType,
+          postCity: req.body.postCity,
+          postState: req.body.postState,
+          postDistrict: req.body.postDistrict,
+          postAddress: req.body.postAddress,
+          postYear: req.body.postYear,
+          postDimension: req.body.postDimension,
+          postSqArea: req.body.postSqArea,
+          userAddress: "0x0e97c9BC912D6e26fE6854dC5FBC2eAD62a662a8",
+          newOwnerAddress: req.body.newOwner,
+        },
       },
       { new: true }
-  )
-      .then((data) => {
-          res.send({ type: "success", msg: "Successfully Transfered Ownership" });
-      })
-      .catch((err) => {
-          console.log(err);
-          res.send({ type: "error", msg: "Failed" });
-      });
-};
+    );
+      console.log('Buy Peoperty', req.body);
+    const { REToken, MyRealEstate } = await contractInstance.getInstance();
+    let txObj = await contractInstance.getTxObject(req.body.newOwner);
 
+    // SmartContract Call to Purchase ERC20 Tokens to buy the property
+    // let txReceipt = await MyRealEstate.methods.PurchaseERC20Tokens(data.userAddress, "URI").send(txObj);
+
+    // console.log('MyRealEstate Methods: ', MyRealEstate.methods);
+        
+        // console.log('TxObj ------', txReceipt.events.RNFTTokenMinted.returnValues);
+    
+    res.send({ type: "success", msg: "Successfully Transfered Ownership" });
+  } catch (error) {
+    console.log(error);
+    res.send({ type: "error", msg: "Failed" });
+  }
+};

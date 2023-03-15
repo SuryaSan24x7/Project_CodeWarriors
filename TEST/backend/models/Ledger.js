@@ -17,7 +17,8 @@ const LedgerSchema = new mongoose.Schema(
         price: {type : String},
         list: { type : String},
         new_owner:{type:String},
-        txn_id:{type:String}
+        txn_id:{type:String},
+        tokenId: {type: String}
     },
     {
         timestamps: true,

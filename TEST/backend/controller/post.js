@@ -255,8 +255,6 @@ exports.createPost = async (req, res) => {
       postSqArea: req.body.postSqArea,
       userAddress: req.body.userAddress
     };
-    const post = new Post(data);
-    console.log(data);
     // Call to Blockchain : createNFTToken function
     const { REToken, MyRealEstate } = await contractInstance.getInstance();
     // console.log('MyRealEstate Methods: ', MyRealEstate.methods);
@@ -270,6 +268,10 @@ exports.createPost = async (req, res) => {
     let returnValue = txReceipt.events.RNFTTokenMinted.returnValues;
     console.log('Events',returnValue);
     console.log(' ID', returnValue.id);
+
+    data['tokenId'] = returnValue.id;
+    const post = new Post(data);
+    console.log(data);
     
     let owner = await MyRealEstate.methods.getPropertyOwner(returnValue.id).call();
     // console.log('REsult -----> ', owner);
@@ -288,7 +290,8 @@ exports.createPost = async (req, res) => {
       postDimension: req.body.postDimension,
       postSqArea: req.body.postSqArea,
       userAddress: req.body.userAddress,
-      txn_id:returnValue.id
+      txn_id: returnValue.id,
+      tokenId: returnValue.id,
     }
     const ledger = new Ledger(data2);
 
@@ -300,26 +303,48 @@ exports.createPost = async (req, res) => {
     res.send({ type: "danger", msg: "failed to save post" });
   }
 };
-exports.updatePost = (req, res, next) => {
+exports.updatePost = async (req, res, next) => {
   console.log(req.body._id);
-	Post.findOneAndUpdate(
-		{ _id: mongoose.Types.ObjectId(req.body._id)},
-		{
-			$set: {
-				price: req.body.price,
-				list: req.body.list
-			},
-		},
-		{ new: true }
-	)
-		.then((data) => {
-      console.log(data);
-			res.send({ type: "success", msg: "Successfully updated profile" });
-		})
-		.catch((err) => {
-			console.log(err);
-			res.send({ type: "error", msg: "Failed to update the profile" });
-		});
+  console.log('----------->', req.body);
+
+  try {
+   let result = await Post.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(req.body._id)},
+      {
+        $set: {
+          price: req.body.price,
+          list: req.body.list
+        },
+      },
+      { new: true }
+    )
+  console.log('List property for sale', req.body);
+  const { REToken, MyRealEstate } = await contractInstance.getInstance();
+  // let txObj = await contractInstance.getTxObject(result.userAddress);
+  let isPropertyForSale = false;
+  if(req.body.list == '1'){
+    isPropertyForSale = true;
+  }
+  // Smart contract call to list property for sale
+  let txReceipt = await MyRealEstate.methods.listPropertyForSale(result.tokenId, req.body.price, isPropertyForSale).send(txObj);
+  console.log('TxReceipt for listPreoertyForSale', txReceipt);
+  //TODO: get the required data from events and push to database
+
+  // Smart contract call to setApprovalForAll 
+  // this allows Escrow contract to transfer the NFT token to buyer on behalf of owner
+  let escrowContractAddress = await MyRealEstate.methods.getEscrowContractAddress().call();
+  console.log('Escrow Contract Address', escrowContractAddress);
+  txReceipt = await REToken.methods.setApprovalForAll(escrowContractAddress, isPropertyForSale).send(txObj);
+  console.log('Tx Receipt for setApprovalForAll', txReceipt);
+  //TODO: get the required data from events and push to database
+  res.send({ type: "success", msg: "Property is listed for sale" });
+
+  } catch (error) {
+    console.log(error);
+    res.send({ type: "error", msg: "Failed to list property for sale" });
+
+  }
+
 };
 
 exports.getPic = async (req, res, next) => {
